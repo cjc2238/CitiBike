@@ -41,11 +41,8 @@ colnames(df2)[3] <- "weight"
 rownames(df2) <- NULL
 
 
+
 net <- graph.data.frame(df2, station_id1, directed = T)
-net <- simplify(net1, remove.multiple = F, remove.loops = T) 
+net <- simplify(net, remove.multiple = F, remove.loops = T) 
 
-
-cut.off <- mean(df2$weight) 
-net.sp <- delete.edges(net, E(net)[weight<cut.off])
-l <- layout.fruchterman.reingold(net.sp, repulserad=vcount(net)^2.1)
-plot(net.sp, layout=l) 
+plot(net) 

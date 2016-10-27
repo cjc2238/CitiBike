@@ -9,7 +9,7 @@ setwd("~/R/CitiBike Data")
 dataset <- read.csv("201609-citibike-tripdata.csv")
 setwd("~/GitHub/CitiBike")
 
-df <- dataset[sample(nrow(dataset),size=1000,replace=FALSE),]
+df <- dataset[sample(nrow(dataset),size=500,replace=FALSE),]
 
 # - - - - - - - - Extract Node Data
 
@@ -44,5 +44,5 @@ rownames(df2) <- NULL
 
 net <- graph.data.frame(df2, station_id1, directed = T)
 net <- simplify(net, remove.multiple = F, remove.loops = T) 
-
-plot(net, edge.arrow.size=.5,vertex.label=NA)
+E(net)$weight <- edge.betweenness(net)
+plot(net, edge.arrow.size=.3,vertex.size=3, vertex.label=NA)

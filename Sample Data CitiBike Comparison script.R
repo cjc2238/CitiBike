@@ -45,4 +45,4 @@ rownames(df2) <- NULL
 net <- graph.data.frame(df2, station_id1, directed = T)
 net <- simplify(net, remove.multiple = F, remove.loops = T) 
 
-plot(net) 
+plot(net, edge.arrow.size=.5,vertex.label=NA)

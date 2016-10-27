@@ -40,6 +40,6 @@ rownames(df2) <- NULL
 
 
 net <- graph.data.frame(df2, station_id1, directed = T)
-net <- simplify(net1, remove.multiple = F, remove.loops = T) 
+net <- simplify(net, remove.multiple = F, remove.loops = T) 
 
 plot(net) 

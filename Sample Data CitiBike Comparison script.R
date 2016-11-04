@@ -28,6 +28,7 @@ station_id1 <- station_id[!duplicated(station_id["station_id"]),]
 
 df1 <- subset(df, select = c("start.station.id", "end.station.id"))
 df1$weight <- 1
+df1 <- df1 %>% group_by(start.station.id, end.station.id) %>% summarise(sum(weight))
 names(df1) <- c("from","to","weight")
 
 head(station_id1)
@@ -35,18 +36,16 @@ head(df1)
 nrow(station_id1); length(unique(station_id1$station_id))
 nrow(df1); nrow(unique(df1[,c("from", "to")]))
 
-df2 <- aggregate(df1[,3], df1[,-3], sum)
-df2 <- df2[order(df2$from, df2$to),]
-colnames(df2)[3] <- "weight"
-rownames(df2) <- NULL
+df1 <- df1[order(df1$from, df1$to),]
+rownames(df1) <- NULL
 
-df3 <- aggregate(data.frame(count = df1), list(value = df1), length)
-
-
-
-
-
-net <- graph.data.frame(df2, station_id1, directed = T)
-net <- simplify(net, remove.multiple = F, remove.loops = T) 
+net <- graph.data.frame(df1, station_id1, directed = T)
+net <- simplify(net, remove.multiple = F, remove.loops = F) 
 E(net)$weight <- edge.betweenness(net)
-plot(net, edge.arrow.size=.3,vertex.size=3, vertex.color="yellow", edge.color="blue", vertex.label=NA)
+plot(net, edge.arrow.size=.1,
+     vertex.size=2, 
+     vertex.color="yellow", 
+     edge.color="blue", 
+     edge.width=df1$weight,
+     vertex.label=NA)
+

@@ -41,5 +41,5 @@ rownames(df2) <- NULL
 
 net <- graph.data.frame(df2, station_id1, directed = T)
 net <- simplify(net, remove.multiple = F, remove.loops = T) 
-
-plot(net) 
+E(net)$weight <- edge.betweenness(net)
+plot(net, edge.arrow.size=.3,vertex.size=3, vertex.color="yellow", edge.color="blue", vertex.label=NA)
